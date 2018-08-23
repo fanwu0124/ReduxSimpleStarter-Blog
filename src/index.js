@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ReduxPromise from 'redux-promise';
 
 import reducers from './reducers';
@@ -16,12 +16,16 @@ const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 //Because Route loosely matches the path.
 //http://localhost:8080/posts/new has '/' after the domain, then
 //it returnes all the components which have '/' after the domain.
+//This bug can be fixed by using Switch.
+//Switch looks for the first matched path, so move "/posts/new" before "/".
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
       <div>
-        <Route path="/" component={PostsIndex} />
-        <Route path="/posts/new" component={PostsNew} />
+        <Switch>
+          <Route path="/posts/new" component={PostsNew} />
+          <Route path="/" component={PostsIndex} />
+        </Switch>
       </div>
     </BrowserRouter>
   </Provider>
