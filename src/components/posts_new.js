@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 class PostsNew extends Component {
+
   renderField(field) {
+    const { meta: { touched, error } } = field; //ES6 syntax, destruct nested objects.
+    const className = `form-group ${touched && error ? 'has-danger' : ''}`;
+
     return (
-      <div className="form-group">
+      <div className={className}>
        <label>{ field.label }</label>
         <input
           className="form-control"
@@ -16,7 +20,10 @@ class PostsNew extends Component {
           //onBlur={field.input.onBlur}
           {...field.input}
         />
-        {field.meta.error}
+        <div className="text-help">
+          {/*Show validation message only when the input has been touched.*/}
+          {touched ? error : ''}
+        </div>
       </div>
     );
   }
