@@ -16,8 +16,9 @@ export function fetchPosts() {
   };
 }
 
-export function createPost(values) {
-  const request = axios.post(`${ROOT_URL}/posts${API_KEY}`, values);
+export function createPost(values, callback) { //Pass a callback function
+  const request = axios.post(`${ROOT_URL}/posts${API_KEY}`, values)
+  .then(() => callback()); //callback is called only when post ajax is finished.
 
   return {
     type: CREATE_POST,

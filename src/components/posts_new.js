@@ -32,7 +32,11 @@ class PostsNew extends Component {
   }
 
   onSubmit(values) {
-    this.props.createPost(values);
+    //Move the redirection to the callback in createPost, so it won't navigate before a new post has been completely posted.
+    //this.props.history.push('/');
+    this.props.createPost(values, () => {
+      this.props.history.push('/');
+    });
   }
 
   render() {
