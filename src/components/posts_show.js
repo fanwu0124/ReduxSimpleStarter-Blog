@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPost } from '../actions';
+import { Link } from 'react-router-dom';
 
 class PostsShow extends Component {
   //Rerender the component after the post is fetched.
   componentDidMount() {
-    //The same as const id = this.props.match.params.id;
-    const { id } = this.props.match.params; //match the wildcard :id in the route
-    this.props.fetchPost(id);
+    //Post is alreday fetched when getting the post list. So don't refetch it.
+    if (!this.props.post) { 
+      //The same as const id = this.props.match.params.id;
+      const { id } = this.props.match.params; //match the wildcard :id in the route
+      this.props.fetchPost(id);
+    }
   }
 
   render() {
@@ -22,6 +26,7 @@ class PostsShow extends Component {
 
     return (
       <div>
+        <Link to="/">Back To Index</Link>
         <h3>{post.title}</h3>
         <h6>Categories:{post.categories}</h6>
         <p>{post.content}</p>
